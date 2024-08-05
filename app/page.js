@@ -58,12 +58,12 @@ export default function Home(){
     const docSnap = await getDoc(docRef)
     if(docSnap.exists()){
       const { quantity } = docSnap.data()
-      if (quantity === 1){
-        await deleteDoc(docRef)
+        await updateDoc(docRef, { quantity: quantity + 1 })
+        
       } else {
-        await updateDoc(docRef, { quantity: quantity - 1 })
+        await setDoc(docRef, {quantity: 1})
       }
-    }
+    
         await updateCloset(); // after creating update your local state by fetching the new dat from Firestore
   }
   const removeItem = async(item) => {
@@ -130,11 +130,11 @@ export default function Home(){
             </Typography>
           </Box>
           <Stack width='800px' height='300px' spacing={2} overflow={'auto'}>
-            {closet.map((name, quantity) => (
-              <Box key = {name} display={'flex'} justifyContent={'space-between'} alignItems={'center'} bgcolor={'#f0f0f0'} paddingX={5}>
-                <Typography variant = 'h3' color='#333' textAlign = {'center'}>{name.charAt(0).toUpperCase()+ name.slice(1)}</Typography>
+            {closet.map(({clothing, quantity}) => (
+              <Box key = {clothing} display={'flex'} justifyContent={'space-between'} alignItems={'center'} bgcolor={'#f0f0f0'} paddingX={5}>
+                <Typography variant = 'h3' color='#333' textAlign = {'center'}>{clothing.charAt(0).toUpperCase()+ clothing.slice(1)}</Typography>
                 <Typography variant = 'h3' color='#333' textAlign = {'center'}>Quantity: {quantity}</Typography>
-                <Button variant = 'contained' onClick = {() => {removeItem(name)}}>Remove
+                <Button variant = 'contained' onClick = {() => {removeItem(clothing)}}>Remove
                   </Button>
               </Box>
   ))}
