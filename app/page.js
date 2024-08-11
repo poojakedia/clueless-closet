@@ -1,9 +1,9 @@
 'use client'
 
 import {useState, useEffect} from 'react'
-import { Box,Stack, Typography, Button, Modal, TextField} from '@mui/material'
+import { Box,Stack, Typography, Button, Modal, TextField, createTheme, ThemeProvider} from '@mui/material'
 import { firestore } from '@/firebase'
-
+import { ImageUpload } from './components/imageUpload'
 import {
   collection,
   doc,
@@ -28,8 +28,14 @@ const style = {
   flexDirection: 'column', 
   gap: 3
 }
+import Closet from './components/closet'
+import getLPTheme from './design/theme'
+
+
 
 export default function Home(){
+
+  const theme = createTheme(getLPTheme(useState('light')))
   const [open, setOpen] = useState(false)
   const [clothing, setClothing] = useState('')
   const [closet, setCloset] = useState([])
@@ -89,8 +95,17 @@ export default function Home(){
   }
 
   return(
-    <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center',
-      height: '100vh', gap: 2, height: '100vw', width: '100wv'}}>
+    <ThemeProvider theme={theme}>
+    <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center',
+      height: '100vh', gap: 2, height: '100vw', width: '100wv', backgroundColor: '#333'}}>
+        <Box sx={{display: 'flex', justifyContent:'flex-start', width: '100%', marginBottom: 2}}>
+        <Typography variant="h1">Clueless Closet</Typography>
+        <Box component={"img"} sx={{
+          width: 50,
+          marginLeft: 1
+        }}
+        src='/assets/hanger.png'/>
+        </Box>
         <Modal
         open={open}
         onClose={handleClose}
@@ -104,43 +119,45 @@ export default function Home(){
             <Stack width = '100%' direction = {'row'} spacing = {2}>
             <TextField id="outlined-basic" label = "Item" variant = "outlined" fullWidth value = {clothing} onChange ={(e) => setClothing(e.target.value)}
             />
-            <Button variant = 'outlined' 
+            <Button sx={{backgroundColor: '#dfc28a !important',
+    '&:hover': {
+      backgroundColor: '#bfa268 !important', 
+    },
+    '&:active': {
+      backgroundColor: '#9f8a48 !important'}}}
             onClick = {() => {addItem(clothing)
               setClothing('')
               handleClose()
             }}>
               Add
             </Button>
+
             </Stack>
           </Box>
 
         </Modal>
         <Button variant = 'contained' onClick = {handleOpen}>Add Item</Button>
-        <Box border = {'1px solid #333'}>
+        <ImageUpload addItem={addItem} />
+        <Box border = {'1px solid #fbf7f5'} sx={{height: 800, overflowY: 'auto', borderRadius:5}}>
           <Box
           width='800px'
           height='100px'
-          bgcolor = {'#ADD8E6'}
+          bgcolor = {'#dfc28a'}
           display={'flex'}
           justifyContent={'center'}
           alignItems={'center'}
+          sx={{borderRadius: 5}}
+          marginBottom={1}
+          
           >
             <Typography variant = 'h2' color = {'#333'} textAlign={'center'}>
               Your Closet
             </Typography>
           </Box>
-          <Stack width='800px' height='300px' spacing={2} overflow={'auto'}>
-            {closet.map(({clothing, quantity}) => (
-              <Box key = {clothing} display={'flex'} justifyContent={'space-between'} alignItems={'center'} bgcolor={'#f0f0f0'} paddingX={5}>
-                <Typography variant = 'h3' color='#333' textAlign = {'center'}>{clothing.charAt(0).toUpperCase()+ clothing.slice(1)}</Typography>
-                <Typography variant = 'h3' color='#333' textAlign = {'center'}>Quantity: {quantity}</Typography>
-                <Button variant = 'contained' onClick = {() => {removeItem(clothing)}}>Remove
-                  </Button>
-              </Box>
-  ))}
-          </Stack>
+          <Closet closet={closet} removeItem= {removeItem}/>
         </Box>
-      <Typography variant="h2">Clueless Closet</Typography>
+      
       </Box>
+      </ThemeProvider>
   )
   }
