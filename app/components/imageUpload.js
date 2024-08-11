@@ -1,15 +1,5 @@
 import * as React from 'react'
-import {
-    collection,
-    doc,
-    getDocs,
-    query,
-    deleteDoc,
-    getDoc,
-    setDoc,
-    updateDoc,
-  } from 'firebase/firestore'
-import { firestore } from '@/firebase';
+import { Box, Button, Typography } from '@mui/material';
 
 
 export function ImageUpload({addItem}){
@@ -54,7 +44,37 @@ export function ImageUpload({addItem}){
     }
     return (
         <div>
-            <input type="file" id="image" name="image" onChange={handleImageChange}/>
+            <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 2,
+        border: '1px dashed #ccc',
+        padding: 2,
+        borderRadius: 2,
+        width: '100%',
+        maxWidth: 400,
+        textAlign: 'center',
+      }}
+    >
+      <Typography variant="h6" color="textSecondary">
+        Upload Image to Closet
+      </Typography>
+      <input
+        type="file"
+        id="image"
+        name="image"
+        onChange={handleImageChange}
+        style={{ display: 'none' }}
+      />
+      <label htmlFor="image">
+        <Button variant="contained" component="span">
+          Choose File
+        </Button>
+      </label>
+
+    </Box>
         </div>
     )
 }
