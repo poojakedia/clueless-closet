@@ -22,6 +22,7 @@ export default function Closet({closet, removeItem}){
         <ThemeProvider theme={theme}>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3px'}}>
             {closet.map(({clothing,quantity}) =>(
+                <div key={clothing}>
                 <Card variant="outlined" sx={{backgroundColor: '#333'}}>
             <Card color = '#fbf7f5' sx={{ maxWidth: 345, margin: '0 auto', borderRadius: 5}}>
                 <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: .25 }}>
@@ -35,6 +36,7 @@ export default function Closet({closet, removeItem}){
                 
             </Card>
             </Card>
+            </div>
             ))}
 
         </Box>

@@ -35,7 +35,7 @@ import getLPTheme from './design/theme'
 
 export default function Home(){
 
-  const theme = createTheme(getLPTheme(useState('light')))
+  const theme = createTheme(getLPTheme())
   const [open, setOpen] = useState(false)
   const [clothing, setClothing] = useState('')
   const [closet, setCloset] = useState([])
