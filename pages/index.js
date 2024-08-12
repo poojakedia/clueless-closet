@@ -3,7 +3,7 @@
 import {useState, useEffect} from 'react'
 import { Box,Stack, Typography, Button, Modal, TextField, createTheme, ThemeProvider} from '@mui/material'
 import { firestore } from '@/firebase'
-import { ImageUpload } from './components/imageUpload'
+import { ImageUpload } from '../app/components/imageUpload'
 import {
   collection,
   doc,
@@ -28,8 +28,8 @@ const style = {
   flexDirection: 'column', 
   gap: 3
 }
-import Closet from './components/closet'
-import getLPTheme from './design/theme'
+import Closet from '../app/components/closet'
+import getLPTheme from '../app/design/theme'
 
 
 
@@ -99,7 +99,7 @@ export default function Home(){
     <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center',
       height: '100vh', gap: 2, height: '100vw', width: '100wv', backgroundColor: '#333'}}>
         <Box sx={{display: 'flex', justifyContent:'flex-start', width: '100%', marginBottom: 2}}>
-        <Typography variant="h1">Clueless Closet</Typography>
+        <Typography variant="h1" color="#ffff">Clueless Closet</Typography>
         <Box component={"img"} sx={{
           width: 50,
           marginLeft: 1

@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
-
+import { getAuth } from "firebase/auth"
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
+  apiKey: "AIzaSyDGhuZOzUKKIWFN3h7h1L0P2LHxVXs4esg",
   authDomain: "clueless-closet-d888c.firebaseapp.com",
   projectId: "clueless-closet-d888c",
   storageBucket: "clueless-closet-d888c.appspot.com",
@@ -14,4 +14,5 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
-export { firestore }
+const auth = getAuth(app);
+export { auth, firestore }
