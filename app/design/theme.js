@@ -114,7 +114,7 @@ const getDesignTokens = (mode) => ({
     },
     divider: mode === 'dark' ? alpha(gray[600], 0.3) : alpha(gray[300], 0.5),
     background: {
-      default: '#fff',
+      default: '#333',
       paper: gray[50],
       ...(mode === 'dark' && { default: gray[900], paper: gray[800] }),
     },
@@ -193,7 +193,7 @@ export default function getLPTheme(mode) {
           root: ({ theme }) => ({
             padding: 8,
             overflow: 'clip',
-            backgroundColor: '#fff',
+            backgroundColor: '#333',
             border: '1px solid',
             borderColor: gray[100],
             ':before': {

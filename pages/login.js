@@ -4,6 +4,7 @@ import { LoginInput } from '../app/components/loginInput';
 import { SignupInput } from '../app/components/signupInput';
 import {Button} from '@mui/material';
 import { useRouter } from 'next/router';
+
 export default function Login(){
     const [newUser, setNewUser] = useState(false);
     const router = useRouter();

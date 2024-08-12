@@ -1,5 +1,5 @@
 'use client'
-
+import { useRouter } from 'next/router'
 import {useState, useEffect} from 'react'
 import { Box,Stack, Typography, Button, Modal, TextField, createTheme, ThemeProvider} from '@mui/material'
 import { firestore } from '@/firebase'
@@ -31,7 +31,9 @@ const style = {
 import Closet from '../app/components/closet'
 import getLPTheme from '../app/design/theme'
 
-
+import { auth } from '../firebase'
+import { signOut, onAuthStateChanged } from 'firebase/auth'
+import { Router } from 'next/router'
 
 export default function Home(){
 
@@ -39,6 +41,8 @@ export default function Home(){
   const [open, setOpen] = useState(false)
   const [clothing, setClothing] = useState('')
   const [closet, setCloset] = useState([])
+
+  const router = useRouter();
 
   const updateCloset = async () =>{
     const snapshot = query(collection(firestore, 'closet'))
@@ -93,11 +97,18 @@ export default function Home(){
   const handleClose = () =>{
     setOpen(false)
   }
+  const handleSignOut = ()=>{
+    signOut(auth).then(()=>{
+      router.push('/login');
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
 
   return(
     <ThemeProvider theme={theme}>
     <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center',
-      height: '100vh', gap: 2, height: '100vw', width: '100wv', backgroundColor: '#333'}}>
+      height: '100vh', gap: 2, height: '100vw', width: '100wv', backgroundColor: '#333', overflowY: 'hidden'}}>
         <Box sx={{display: 'flex', justifyContent:'flex-start', width: '100%', marginBottom: 2}}>
         <Typography variant="h1" color="#ffff">Clueless Closet</Typography>
         <Box component={"img"} sx={{
@@ -105,6 +116,7 @@ export default function Home(){
           marginLeft: 1
         }}
         src='/assets/hanger.png'/>
+        <Button onClick={handleSignOut}> Sign Out </Button>
         </Box>
         <Modal
         open={open}
@@ -156,6 +168,8 @@ export default function Home(){
           </Box>
           <Closet closet={closet} removeItem= {removeItem}/>
         </Box>
+        
+        
       
       </Box>
       </ThemeProvider>
