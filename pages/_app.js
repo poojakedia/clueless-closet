@@ -6,13 +6,15 @@ function App({Component, pageProps}){
     const router = useRouter();
 
     useEffect(() => {
+        if (!router.isReady) return;
         const existingUser = auth.onAuthStateChanged(user => {
-            if(user){
+            /*if(user){
+                router.push('/home');
+            } else{
                 router.push('/');
-            }
-            else{
-                router.push('/landing');
-            }
+            }*/
+           
+            
         });
 
         return() => existingUser();

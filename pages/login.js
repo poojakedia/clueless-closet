@@ -10,7 +10,7 @@ export default function Login(){
     const router = useRouter();
 
     const handleNavigation = async() =>{
-        router.push('/')
+        router.push('/home')
     }
     return(
         <div>
@@ -18,7 +18,7 @@ export default function Login(){
                 <SignupInput auth={auth} handleNavigation={handleNavigation}/>
             ):(
                 <div>
-                <LoginInput auth={auth} handleNavigation={{handleNavigation}}/>
+                <LoginInput auth={auth} handleNavigation={handleNavigation}/>
                 <Button 
                 sx={{backgroundColor: '#dfc28a !important',
                     '&:hover': {
