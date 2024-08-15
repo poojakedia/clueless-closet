@@ -26,7 +26,7 @@ export function ImageUpload({addItem}){
                     itemName += labels[i] + " ";
                 }
                 const item = itemName;
-                addItem(item);
+                addItem({item: item});
             }else{
                 console.log("No labels generated");
             }

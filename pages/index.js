@@ -35,8 +35,9 @@ import { auth } from '../firebase'
 import { signOut, onAuthStateChanged } from 'firebase/auth'
 import { Router } from 'next/router'
 
-export default function Home(){
 
+export default function Home(){
+  const uid = auth.currentUser?.uid;
   const theme = createTheme(getLPTheme())
   const [open, setOpen] = useState(false)
   const [clothing, setClothing] = useState('')
@@ -45,7 +46,7 @@ export default function Home(){
   const router = useRouter();
 
   const updateCloset = async () =>{
-    const snapshot = query(collection(firestore, 'closet'))
+    const snapshot = query(collection(firestore, `users/${uid}/closet`))
     const docs = await getDocs(snapshot)
     const closetList = []
     docs.forEach(doc => {
@@ -63,8 +64,13 @@ export default function Home(){
   mounts, meaning this block will run everytime the closet inventory is updated
   */
 
-  const addItem = async(item) => {
-    const docRef = doc(collection(firestore, 'closet'), item)
+  const addItem = async({item}) => {
+    if (!item || item.trim() === "") {
+      console.error("Item is undefined or empty");
+      return;
+    }
+    const docRef = doc(collection(firestore, `users/${uid}/closet`), item)
+    console.log(docRef)
     const docSnap = await getDoc(docRef)
     if(docSnap.exists()){
       const { quantity } = docSnap.data()
@@ -77,7 +83,7 @@ export default function Home(){
         await updateCloset(); // after creating update your local state by fetching the new dat from Firestore
   }
   const removeItem = async(item) => {
-    const docRef = doc(collection(firestore, 'closet'), item)
+    const docRef = doc(collection(firestore, `users/${uid}/closet`), item)
     const docSnap = await getDoc(docRef)
     if(docSnap.exists()){
       const { quantity } = docSnap.data()
@@ -137,7 +143,7 @@ export default function Home(){
     },
     '&:active': {
       backgroundColor: '#9f8a48 !important'}}}
-            onClick = {() => {addItem(clothing)
+            onClick = {() => {addItem({ item: clothing})
               setClothing('')
               handleClose()
             }}>

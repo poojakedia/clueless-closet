@@ -1,16 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {auth} from '../firebase'
 
 function App({Component, pageProps}){
     const router = useRouter();
+
     useEffect(() => {
         const existingUser = auth.onAuthStateChanged(user => {
             if(user){
                 router.push('/');
             }
             else{
-                router.push('/login');
+                router.push('/landing');
             }
         });
 
