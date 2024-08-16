@@ -34,7 +34,7 @@ import getLPTheme from '../app/design/theme'
 import { auth } from '../firebase'
 import { signOut, onAuthStateChanged } from 'firebase/auth'
 import { Router } from 'next/router'
-
+import { CameraComponent } from '@/app/components/camera'
 
 export default function Home(){
   const uid = auth.currentUser?.uid;
@@ -156,6 +156,7 @@ export default function Home(){
         </Modal>
         <Button variant = 'contained' onClick = {handleOpen}>Add Item</Button>
         <ImageUpload addItem={addItem} />
+        <Box display='flex' justifyContent={'flex-end'}>
         <Box border = {'1px solid #fbf7f5'} sx={{height: 800, overflowY: 'auto', borderRadius:5}}>
           <Box
           width='800px'
@@ -173,9 +174,11 @@ export default function Home(){
             </Typography>
           </Box>
           <Closet closet={closet} removeItem= {removeItem}/>
+          
         </Box>
+        <CameraComponent addItem={addItem}/>
         
-        
+        </Box>
       
       </Box>
       </ThemeProvider>
