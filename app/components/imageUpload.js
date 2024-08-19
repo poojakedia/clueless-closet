@@ -6,9 +6,10 @@ export function ImageUpload({addItem}){
     const handleImageChange = async(event) =>{
         const file = event.target.files[0];
         const reader = new FileReader();
+        let base64=""
         reader.onloadend = async()=>{
             console.log("File read");
-            const base64 = reader.result;
+            base64 = reader.result;
             try{
                 const response = await fetch('/api/vision', {
                 method: 'POST',
@@ -26,7 +27,7 @@ export function ImageUpload({addItem}){
                     itemName += labels[i] + " ";
                 }
                 const item = itemName;
-                addItem({item: item});
+                addItem({item: item, img: base64});
             }else{
                 console.log("No labels generated");
             }
