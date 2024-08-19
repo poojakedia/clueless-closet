@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import {useState, useEffect} from 'react'
 import { Box,Stack, Typography, Button, Modal, TextField, createTheme, ThemeProvider} from '@mui/material'
 import { firestore } from '@/firebase'
+import { ref, uploadBytes, getDownloadURL,getStorage } from "firebase/storage"
 import { ImageUpload } from '../app/components/imageUpload'
 import {
   collection,
@@ -63,8 +64,8 @@ export default function Home(){
   which is our registry of items, the useEffect hook updates the closet inventory whenever the component
   mounts, meaning this block will run everytime the closet inventory is updated
   */
-
-  const addItem = async({item}) => {
+  const storage = getStorage();
+  const addItem = async({item, img}) => {
     if (!item || item.trim() === "") {
       console.error("Item is undefined or empty");
       return;
@@ -72,12 +73,28 @@ export default function Home(){
     const docRef = doc(collection(firestore, `users/${uid}/closet`), item)
     console.log(docRef)
     const docSnap = await getDoc(docRef)
+    let imageURL = "";
+    if (img){
+      console.log('img:', img);
+      const base64Response = await fetch(img);
+      const blob = await base64Response.blob();
+
+      const storageRef = ref(storage, `users/${uid}/closet/img/${item}`)
+
+      const snapshot = await uploadBytes(storageRef,blob);
+      console.log('Upload successful:', snapshot);
+      imageURL = await getDownloadURL(snapshot.ref);
+      console.log(imageURL)
+    } else{
+      
+    }
     if(docSnap.exists()){
       const { quantity } = docSnap.data()
-        await updateDoc(docRef, { quantity: quantity + 1 })
+      
+        await updateDoc(docRef, { quantity: quantity + 1, image: imageURL })
         
       } else {
-        await setDoc(docRef, {quantity: 1})
+        await setDoc(docRef, {quantity: 1, image: imageURL})
       }
     
         await updateCloset(); // after creating update your local state by fetching the new dat from Firestore
@@ -155,9 +172,8 @@ export default function Home(){
 
         </Modal>
         <Button variant = 'contained' onClick = {handleOpen}>Add Item</Button>
-        <ImageUpload addItem={addItem} />
         <Box display='flex' justifyContent={'flex-end'}>
-        <Box border = {'1px solid #fbf7f5'} sx={{height: 800, overflowY: 'auto', borderRadius:5}}>
+        <Box border = {'1px solid #fbf7f5'} sx={{height: 800, overflowY: 'auto', borderRadius:5, padding:3 }}>
           <Box
           width='800px'
           height='100px'
@@ -176,8 +192,10 @@ export default function Home(){
           <Closet closet={closet} removeItem= {removeItem}/>
           
         </Box>
+        <Stack>
         <CameraComponent addItem={addItem}/>
-        
+        <ImageUpload addItem={addItem} sx={{marginLeft: 3}} />
+        </Stack>
         </Box>
       
       </Box>

@@ -37,7 +37,8 @@ export function CameraComponent({ addItem }) {
 
             if (labels && labels.length > 0) {
                 let itemName = labels.join(" "); 
-                addItem({ item: itemName });
+
+                addItem({ item: itemName, img: src });
             } else {
                 console.log("No labels generated");
             }

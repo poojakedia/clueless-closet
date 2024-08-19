@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
 import {Button, Typography, Box} from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-
+import CardMedia from '@mui/material/CardMedia'
 
 export default function Closet({closet, removeItem}){
     const theme = createTheme({
@@ -21,11 +21,12 @@ export default function Closet({closet, removeItem}){
     return(
         <ThemeProvider theme={theme}>
         <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3px'}}>
-            {closet.map(({clothing,quantity}) =>(
+            {closet.map(({clothing,quantity,image}) =>(
                 <div key={clothing}>
                 <Card variant="outlined" sx={{backgroundColor: '#333'}}>
             <Card color = '#fbf7f5' sx={{ maxWidth: 345, margin: '0 auto', borderRadius: 5}}>
                 <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: .25 }}>
+                {image && <CardMedia component="img" image = {image}></CardMedia>}
                 <Typography variant="h5" component="div" color='#333' textAlign = {'center'}> {clothing.charAt(0).toUpperCase()+ clothing.slice(1)} </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary" textAlign = {'center'}> Quantity: {quantity} </Typography>
                 </CardContent>
