@@ -182,7 +182,7 @@ export default function Home(){
           justifyContent={'center'}
           alignItems={'center'}
           sx={{borderRadius: 5}}
-          marginBottom={1}
+          marginBottom={3}
           
           >
             <Typography variant = 'h2' color = {'#333'} textAlign={'center'}>
