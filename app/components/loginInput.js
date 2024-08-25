@@ -26,7 +26,7 @@ export function LoginInput({auth, handleNavigation}){
     }
     return(
     <ThemeProvider theme={theme}>
-    <Box sx={{backgroundColor: '#333'}}>
+    <Box>
         <Stack spacing={2}>
         <Typography variant="h2" color='#dfc28a'> Sign In </Typography>
         <Typography variant="h6" color='#bfa268'> Enter your credentials to access your account </Typography>
