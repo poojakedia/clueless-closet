@@ -1,8 +1,7 @@
-const vision = require('@google-cloud/vision');
-const credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS.replace(/\\n/g, '\n');
-const client = new vision.ImageAnnotatorClient({
-  credentials: JSON.parse(credentials)
-});
+import { ImageAnnotatorClient } from "@google-cloud/vision";
+
+const client = new ImageAnnotatorClient();
+
 export async function POST(req){
     const {image} = await req.json();
     const imageData = image.replace(/^data:image\/\w+;base64,/, '');
